@@ -13,9 +13,16 @@ target_link_libraries(avl_demo PRIVATE avl_tree)
 add_executable(test_avl tests/test_avl.c)
 target_link_libraries(test_avl PRIVATE avl_tree)
 
+add_executable(test_core tests/test_core.c)
+target_link_libraries(test_core PRIVATE avl_tree)
+
+add_executable(test_extra tests/test_extra.c)
+target_link_libraries(test_extra PRIVATE avl_tree)
+
 add_executable(benchmark_avl benchmark/benchmark_avl.c)
 target_link_libraries(benchmark_avl PRIVATE avl_tree)
 
 enable_testing()
 add_test(NAME correctness COMMAND test_avl)
-
+add_test(NAME member_a_core COMMAND test_core)
+add_test(NAME member_b_extra COMMAND test_extra)
