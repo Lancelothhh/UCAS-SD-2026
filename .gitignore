@@ -1,0 +1,10 @@
+build/
+*.exe
+*.obj
+*.o
+*.out
+*.ilk
+*.pdb
+__pycache__/
+.pytest_cache/
+
