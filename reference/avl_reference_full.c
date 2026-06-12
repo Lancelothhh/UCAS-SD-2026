@@ -203,7 +203,7 @@ static void print_tree_rec(const AVLNode *node, int depth)
     }
     print_tree_rec(node->right, depth + 1);
     for (i = 0; i < depth; ++i) {
-        printf("    ");
+        printf("        ");
     }
     printf("%d(h=%d)\n", node->key, node->height);
     print_tree_rec(node->left, depth + 1);
@@ -438,6 +438,7 @@ int main(void)
     avl_init(&tree);
 
     while (1) {
+        printf("\033[2J\033[H");
         print_menu();
         if (scanf("%d", &choice) != 1) {
             printf("输入无效，程序结束。\n");
