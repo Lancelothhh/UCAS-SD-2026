@@ -1,4 +1,4 @@
-#include <limits.h>
+﻿#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -369,6 +369,25 @@ static int read_int(const char *prompt, int *value)
     return 1;
 }
 
+static void clear_screen(void)
+{
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
+}
+
+static void wait_for_enter(void)
+{
+    int ch;
+
+    printf("\n按回车键继续...");
+    while ((ch = getchar()) != '\n' && ch != EOF) {
+    }
+    getchar();
+}
+
 static void show_status(const AVLTree *tree)
 {
     printf("当前节点数: %d, 高度: %d\n", tree->size, avl_height(tree));
@@ -438,7 +457,7 @@ int main(void)
     avl_init(&tree);
 
     while (1) {
-        printf("\033[2J\033[H");
+        clear_screen();
         print_menu();
         if (scanf("%d", &choice) != 1) {
             printf("输入无效，程序结束。\n");
@@ -454,33 +473,41 @@ int main(void)
                 printf(avl_insert(&tree, key) ? "插入成功。\n" : "关键字已存在，未重复插入。\n");
                 show_status(&tree);
             }
+            wait_for_enter();
             break;
         case 2:
             if (read_int("请输入要删除的关键字: ", &key)) {
                 printf(avl_delete(&tree, key) ? "删除成功。\n" : "关键字不存在。\n");
                 show_status(&tree);
             }
+            wait_for_enter();
             break;
         case 3:
             if (read_int("请输入要查找的关键字: ", &key)) {
                 printf(avl_search(&tree, key) ? "查找成功。\n" : "未找到该关键字。\n");
             }
+            wait_for_enter();
             break;
         case 4:
             printf("中序遍历: ");
             avl_print_inorder(&tree);
+            wait_for_enter();
             break;
         case 5:
             show_status(&tree);
+            wait_for_enter();
             break;
         case 6:
             merge_from_input(&tree);
+            wait_for_enter();
             break;
         case 7:
             split_by_input(&tree);
+            wait_for_enter();
             break;
         default:
             printf("无效选择，请重新输入。\n");
+            wait_for_enter();
             break;
         }
     }
@@ -489,4 +516,3 @@ int main(void)
     printf("程序结束。\n");
     return 0;
 }
-
